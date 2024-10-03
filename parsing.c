@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:42:32 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/01 13:48:03 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:14:59 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 int	is_number(char *str)
 {
-	if(*str == '-' || *str == '+')
-		str++;
 	while(*str)
 	{
 		if(*str < '0' || *str > '9')
-			return (0);
+			exit(printf("args is not a positive number\n"));
 		str++;
 	}
 	return (1);

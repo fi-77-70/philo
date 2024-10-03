@@ -2,7 +2,7 @@ NAME = philo
 
 SRC = philo.c parsing.c utils.c
 
-COMPILE = cc -Wall -Werror -Wextra -g -pthread -fsanitize=thread # -fsanitize=address
+COMPILE = cc -Wall -Werror -Wextra -g -fsanitize=address # -fsanitize=address
 
 all: $(NAME)
 
