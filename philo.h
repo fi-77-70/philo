@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:33:49 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/03 16:44:12 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:47:47 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef	struct s_philo{
 typedef	struct s_table{
 	t_philo			*philo;
 	pthread_mutex_t	*mutex_original;
-	pthread_mutex_t	*checker_mutex;
+	pthread_mutex_t	**checker_mutex;
 	suseconds_t		start_time;
 	int				n_philos;
 	int				max_meals;

@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:33:23 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/03 17:57:20 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:40:47 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ suseconds_t	get_time(void)
 
 int	checker(t_philo *philo)
 {
-	pthread_mutex_lock(philo->table->checker_mutex);
+	pthread_mutex_lock(philo->table->checker_mutex[0]);
 	if (philo->table->some_one_dead)
-		return (pthread_mutex_unlock(philo->table->checker_mutex), 1);
-	if (philo->meals == philo->table->max_meals)
-		return (pthread_mutex_unlock(philo->table->checker_mutex), 1);
+		return (pthread_mutex_unlock(philo->table->checker_mutex[0]), 1);
+	if (philo->meals == philo->table->max_meals && philo->table->max_meals != -1)
+		return (pthread_mutex_unlock(philo->table->checker_mutex[0]), 1);
 	if ((get_time() - philo->last_meal) > philo->time_to_die)
-		return (printf("%ld philo %d, is dead\n",get_time() - philo->table->start_time, philo->id), philo->table->some_one_dead = 1, pthread_mutex_unlock(philo->table->checker_mutex), 1);
-	pthread_mutex_unlock(philo->table->checker_mutex);
+		return (printf("%ld philo %d, is dead\n",get_time() - philo->table->start_time, philo->id), philo->table->some_one_dead = 1, pthread_mutex_unlock(philo->table->checker_mutex[0]), 1);
+	pthread_mutex_unlock(philo->table->checker_mutex[0]);
 	return (0);
 	
 }
@@ -59,6 +59,8 @@ int	try_eat(t_philo *philo)
 		fork_2 = philo->l_fork;
 		fork_1 = philo->r_fork;
 	}
+	if (checker(philo))
+		return (1);
 	pthread_mutex_lock(fork_1);
 	if(checker(philo))
 		return (pthread_mutex_unlock(fork_1), 1);
@@ -123,6 +125,7 @@ void	init_philos(t_table *table, char **av)
 		table->philo[i].time_to_die = ft_atoi(av[2]);
 		table->philo[i].time_to_eat = ft_atoi(av[3]);
 		table->philo[i].time_to_sleep = ft_atoi(av[4]);
+		table->philo[i].current_time = get_time();
 		table->philo[i].table = table;
 		pthread_mutex_init(&table->mutex_original[i], NULL);
 		table->philo[i].l_fork = &table->mutex_original[i];
@@ -161,10 +164,13 @@ void	init_table(t_table *table, char **av)
 {
 	table->n_philos = ft_atoi(av[1]);
 	table->some_one_dead = 0;
-	table->checker_mutex = malloc(sizeof(pthread_mutex_t *));
-	pthread_mutex_init(table->checker_mutex, NULL);
+	table->checker_mutex = malloc(sizeof(pthread_mutex_t *) * 1);
+	table->checker_mutex[0] = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(table->checker_mutex[0], NULL);
 	if (av[5])
 		table->max_meals = ft_atoi(av[5]);
+	else
+		table->max_meals = -1;
 }
 
 int	main(int ac, char **av)
@@ -190,7 +196,8 @@ int	main(int ac, char **av)
 	i = -1;
 	while (++i < table->n_philos)
 		pthread_mutex_destroy(&table->mutex_original[i]);
-	pthread_mutex_destroy(table->checker_mutex);
+	pthread_mutex_destroy(table->checker_mutex[0]);
+	free(table->checker_mutex[0]);
 	free(table->checker_mutex);
 	free(table->philo);
 	free(table->mutex_original);
