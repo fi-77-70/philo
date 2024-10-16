@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:36:41 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/04 16:57:54 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:55:53 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ void	init_table(t_table *table, char **av)
 	table->n_philos = ft_atoi(av[1]);
 	table->some_one_dead = 0;
 	table->ready = 0;
+	table->meals = 0;
 	table->checker_mutex = malloc(sizeof(pthread_mutex_t *) * 1);
 	table->checker_mutex[0] = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(table->checker_mutex[0], NULL);
 	if (av[5])
-		table->max_meals = ft_atoi(av[5]);
+		table->max_meals = ft_atoi(av[5]) * table->n_philos;
 	else
 		table->max_meals = -1;
 }
@@ -60,7 +61,6 @@ void	init_philos(t_table *table, char **av)
 	{
 		table->philo[i].id = i + 1;
 		table->philo[i].is_dead = 0;
-		table->philo[i].meals = 0;
 		table->philo[i].time_to_die = ft_atoi(av[2]);
 		table->philo[i].time_to_eat = ft_atoi(av[3]);
 		table->philo[i].time_to_sleep = ft_atoi(av[4]);
@@ -97,7 +97,9 @@ void	start_philos(t_table *table)
 		if (i == table->n_philos)
 			i = 0;
 		pthread_mutex_lock(*table->checker_mutex);
-		if ((get_time() - table->philo[i].last_meal) > table->philo[i].time_to_die)
+		if (table->meals >= table->max_meals && table->max_meals != -1)
+			table->some_one_dead = 1;
+		else if ((get_time() - table->philo[i].last_meal) > table->philo[i].time_to_die)
 		{
 			printf("%ld philo %d, is dead\n",
 				get_time() - table->philo[i].start_time, table->philo[i].id);

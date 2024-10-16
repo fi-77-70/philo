@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:33:49 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/04 16:48:55 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:50:32 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef	struct s_philo{
 	pthread_mutex_t	*r_fork;
 	t_table			*table;
 	int				is_dead;
-	int				meals;
 	suseconds_t		current_time;
 	suseconds_t		last_meal;
 	suseconds_t		start_time;
@@ -47,6 +46,7 @@ typedef	struct s_table{
 	pthread_mutex_t	**checker_mutex;
 	int				ready;
 	int				n_philos;
+	int				meals;
 	int				max_meals;
 	int				some_one_dead;
 } t_table;

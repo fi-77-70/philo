@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:33:23 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/03 20:36:44 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:16:42 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int ac, char **av)
 	t_table *table;
 	int		i;
 
-	if(ac < 4 || ac > 6)
+	if(ac < 5 || ac > 6 || ft_atoi(av[2]) == 0)
 		return(printf("Error, args(n philos, t_die, t_eat, t_sleep)\n"), 0);
 	i = 0;
 	while (av[++i])

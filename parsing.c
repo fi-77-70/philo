@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:42:32 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/04 16:50:29 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:52:20 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int	is_number(char *str)
 
 void	set_forks(t_philo *philo, pthread_mutex_t **fork_1, pthread_mutex_t **fork_2)
 {
+	if (philo->id == 1 && !philo->table->n_philos % 2)
+	{
+		*fork_1 = philo->r_fork;
+		*fork_2 = philo->l_fork;
+	}
 	if (philo->id % 2)
 	{
 		*fork_1 = philo->l_fork;
