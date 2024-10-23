@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:33:49 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/16 11:50:32 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:39:10 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,19 @@
 # ifndef INT_MAX
 #  define INT_MAX 2147483647
 
-# include <unistd.h>
-# include <pthread.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <sys/time.h>
+#  include <unistd.h>
+#  include <pthread.h>
+#  include <stdlib.h>
+#  include <stdio.h>
+#  include <sys/time.h>
 
-typedef	struct s_table t_table;
-typedef	struct s_philo t_philo;
+typedef struct s_table	t_table;
+typedef struct s_philo	t_philo;
 
-typedef	struct s_philo{
-	pthread_t 		th;
-	pthread_mutex_t *l_fork;
+typedef struct s_philo
+{
+	pthread_t		th;
+	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	t_table			*table;
 	int				is_dead;
@@ -37,10 +38,13 @@ typedef	struct s_philo{
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				total_meals;
+	int				eat_times;
 	int				id;
-} t_philo;
+}	t_philo;
 
-typedef	struct s_table{
+typedef struct s_table
+{
 	t_philo			*philo;
 	pthread_mutex_t	*mutex_original;
 	pthread_mutex_t	**checker_mutex;
@@ -49,7 +53,7 @@ typedef	struct s_table{
 	int				meals;
 	int				max_meals;
 	int				some_one_dead;
-} t_table;
+}	t_table;
 
 int			ft_atoi(char *str);
 int			is_number(char *str);
@@ -61,9 +65,12 @@ void		start_philos(t_table *table);
 void		*loop(void *arg);
 int			think(t_philo *philo);
 suseconds_t	get_time(void);
-void		set_forks(t_philo *philo, pthread_mutex_t **fork_1, pthread_mutex_t **fork_2);
+void		set_forks(t_philo *philo, pthread_mutex_t **fork_1,
+				pthread_mutex_t **fork_2);
 int			checker(t_philo *philo);
 int			try_eat(t_philo *philo);
+int			eat_two(t_philo *philo);
+void		monitor(t_table *table);
 
 # endif
 #endif
