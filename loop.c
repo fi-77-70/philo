@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 20:36:15 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/23 11:29:51 by filferna         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:40:30 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	checker(t_philo *philo)
 {
-	usleep(10);
+	usleep(100);
 	pthread_mutex_lock(*philo->table->checker_mutex);
 	if (philo->table->some_one_dead)
 		return (pthread_mutex_unlock(*philo->table->checker_mutex), 1);
