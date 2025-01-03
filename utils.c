@@ -6,7 +6,7 @@
 /*   By: filferna <filferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:36:41 by filferna          #+#    #+#             */
-/*   Updated: 2024/10/23 11:45:17 by filferna         ###   ########.fr       */
+/*   Updated: 2025/01/03 15:41:05 by filferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ void	start_philos(t_table *table)
 	time = get_time();
 	while (++i < table->n_philos)
 	{
-		table->philo->eat_times = 0;
-		if (!table->philo->total_meals)
-			table->philo->total_meals = 0;
+		table->philo[i].eat_times = 0;
+		if (!table->philo[i].total_meals)
+			table->philo[i].total_meals = 0;
 		table->philo[i].start_time = time;
 		table->philo[i].last_meal = get_time();
 		pthread_create(&table->philo[i].th,
